@@ -23,6 +23,7 @@ namespace mytest
             addFunction<&IMyTestCall::fiber_test>(true);
             addFunction<&IMyTestCall::returnError>();
             addFunction<&IMyTestCall::array_test>();
+            addFunction<&IMyTestCall::fiberTest>(true);
         }
 
         CLIENT_CALL(addOne, int, int);
@@ -33,6 +34,8 @@ namespace mytest
         {
             return clientCall(__FUNCTION__, req, resp);
         }
+
+        CLIENT_CALL(fiberTest, std::string, std::string);
     };
 
 }

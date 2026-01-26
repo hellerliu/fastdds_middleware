@@ -5,7 +5,7 @@
 #include "helloworld/msg/HelloWorldPubSubTypes.hpp"
 #include <functional>
 #include <unistd.h>
-
+#include <signal.h>
 #include <fastdds/dds/log/Log.hpp>
 #include <sys/types.h>
 
@@ -23,19 +23,29 @@ void handleHelloWorld1(const HelloWorld &msg)
 }
 
 // auto subscriber = ChannelSubscriber<HelloWorldPubSubType>::create("hello_world", handleHelloWorld);
+volatile sig_atomic_t stop_flag = 0;
+void signal_handler(int sig)
+{
+    stop_flag = 1;
+}
 
 int main()
 {
-    eprosima::fastdds::dds::Log::SetVerbosity(eprosima::fastdds::dds::Log::Info);    
-   
+    signal(SIGINT, signal_handler);  // Ctrl+C
+    signal(SIGTERM, signal_handler); // 终止信号
+    signal(SIGQUIT, signal_handler); //
+    
+    eprosima::fastdds::dds::Log::SetVerbosity(eprosima::fastdds::dds::Log::Info);
+
     std::function<void(const HelloWorld &)> func = handleHelloWorld;
     // auto subscriber = ChannelSubscriber<HelloWorldPubSubType>::create("hello_world", func);
     ChannelSubscriber<HelloWorldPubSubType>::Ptr subscriber = ChannelSubscriber<HelloWorldPubSubType>::create("hello_world", func);
-    
+
     ChannelSubscriber<HelloWorldPubSubType>::Ptr subscriber1 = ChannelSubscriber<HelloWorldPubSubType>::create("hello_world1", handleHelloWorld1);
-    while (true)
+    while (!stop_flag)
     {
-        sleep(1);
+        sleep(10);
+        subscriber1.reset();
     }
     return 0;
 }

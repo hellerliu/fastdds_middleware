@@ -54,6 +54,15 @@ namespace mytest
             printf("array_test: %d %d\n", resp[0], resp[1]);
             return 0;
         }
+
+        int fiberTest(const std::string &req, std::string &resp) override
+        {
+            printf("MyTestCallService fiberTest enter\n");
+            marl::Event sleep{marl::Event::Mode::Auto};
+            sleep.wait_for(std::chrono::seconds{2});
+            resp = req + " world";
+            return 0;
+        }
     };
 
 }

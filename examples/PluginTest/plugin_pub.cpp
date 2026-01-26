@@ -29,13 +29,13 @@ public:
             msg_.message("---HelloWorld---");
             int res = publisher_->publish(msg_);
             printf("pub:%d %d\n", msg_.index(), res);
+            //timer_pub_.reset();
         };
-        timer_pub_ = rpc::GlobalTimer::create(std::move(func), 1000, true);
+        timer_pub_ = rpc::GlobalTimer::create(std::move(func), 1000);
     }
 
     ~PubTestNode()
-    {
-        // rpc::get_handle_thread()->killTimer(time_id_, true);
+    {     
         printf("PubTestNode release\n");
     }
 

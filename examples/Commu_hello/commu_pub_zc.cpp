@@ -19,15 +19,15 @@ int main()
     int index = 0;  
     while (true)
     {
-        HelloWorld& msg = *publisher->loanMessage();
-
-        msg.index(index);
+        HelloWorld* msg = publisher->loanMessage();
+        
+        msg->index(index);
         index++;
-        msg.data()[0] = 1;
-        msg.data()[1] = 2;
+        msg->data()[0] = 1;
+        msg->data()[1] = 2;
 
-        int res = publisher->publish(msg);
-        printf("pub:%d %d\n", msg.index(), res);
+        int res = publisher->publish(*msg);
+        printf("pub:%d %d\n", msg->index(), res);
 
         sleep(1);
     }

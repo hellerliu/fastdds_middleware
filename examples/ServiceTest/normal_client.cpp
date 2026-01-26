@@ -5,7 +5,7 @@
 
 int main()
 {
-    mytest::IMyTestCall gCall;   
+    mytest::IMyTestCall gCall;
 
     /*auto funcSet = gCall.getLocalFuncNames();
     std::set<std::string> serverFuncSet;
@@ -16,10 +16,9 @@ int main()
     while (true)
     {
         seq++;
-        //gCall.setCurrentTimeout(2000);
+        // gCall.setCurrentTimeout(2000);
         gCall.async(&mytest::IMyTestCall::addOne, seq, [](int res, int &resp)
                     { printf("addOne async res:%d %d\n", res, resp); });
-       
 
         gCall.async(&mytest::IMyTestCall::fiber_test, std::string{"run in fiber"}, [](int res, mytest::echoResp &resp)
                     { printf("fiber_test async res:%d %d\n", res, resp.data); });
@@ -33,11 +32,8 @@ int main()
                     { 
                         if(res == 0)
                             return;                       
-                        auto str = rpc::rpc_error_str<mytest::MyTestCallErrCode>(res);
-                        if(str.empty() == false)
-                        {
-                            printf("returnError async error:%d %s\n", res, str.data());
-                        } });
+                        auto str = rpc::rpc_error_str<mytest::MyTestCallErrCode>(res);                        
+                        printf("returnError async error:%d %s\n", res, str.data()); });
 
         int arrReq[2] = {10, 11};
         int arrResp[2];
