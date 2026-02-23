@@ -1,6 +1,6 @@
 # demo说明：
 
-基于fastdds的轻量级通信消息中间件，简单易用，功能强大。
+基于fastdds的轻量级通信消息中间件，简单易用，功能强大。运行环境为ubuntu24，python3.12。
 
 1. 支持dds消息的订阅发布，c++版本见commu_pub.cpp，commu_sub.cpp；python版本见commu_pub.py，commu_sub.py(python3.12)；在ros2中topic命令可以见到对应topic，和ros2生态系统无缝集成；
 2. 支持共享内存零拷贝，c++版本commu_pub_zc.cpp，commu_sub_zc.cpp，用于大数据的发送接收，同样支持ros2收发；
